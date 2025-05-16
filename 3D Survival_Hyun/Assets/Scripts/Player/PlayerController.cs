@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public float lookSensitivity;
 
     private Vector2 mouseDelta;
+    private float fallDamageThreshold = -15f;
+    private float previousYVelocity = 0f;
 
     [HideInInspector]
     public bool canLook = true;
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        CheckFallDamage();
         Move();
     }
 
@@ -60,6 +63,24 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log($"[Look] delta: {mouseDelta}");
             CameraLook();
+        }
+    }
+
+    void CheckFallDamage()
+    {
+        if (IsGrounded())
+        {
+            if (previousYVelocity < fallDamageThreshold)
+            {
+                float damage = Mathf.Abs(previousYVelocity) * 2f;
+                GetComponent<PlayerHealth>()?.TakeDamage(damage);
+            }
+
+            previousYVelocity = 0f;
+        }
+        else
+        {
+            previousYVelocity = rb.velocity.y;
         }
     }
 
