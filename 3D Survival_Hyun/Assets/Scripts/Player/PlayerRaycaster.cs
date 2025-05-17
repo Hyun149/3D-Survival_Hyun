@@ -17,8 +17,6 @@ public class PlayerRaycaster : MonoBehaviour
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, rayDistance, interactableLayer))
         {
-            Debug.Log($"Ray Hit: {hit.collider.name}");
-
             var inspectable = hit.collider.GetComponent<InspectableObject>();          
             if (inspectable != null && inspectable.data != null)
             {
