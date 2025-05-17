@@ -1,7 +1,9 @@
 게임 소개: 
 
-🛠 트러블 슈팅 모음
 
+
+
+🛠 트러블 슈팅 모음
 # 📅 2025년 5월 16일 트러블슈팅 기록
 
 ## 🎮 Unity 3D 생존 프로젝트 - 플레이어 시스템 리팩토링
@@ -60,4 +62,54 @@
 
 ---
 
-> ⛳ 다음 목표: 공격 기능 및 대미지 처리, 카메라 Shake 효과, 대시 구현
+> ⛳ 다음 목표: 필수 기능 구현하기
+---
+---
+# 🛠 2025-05-17 트러블 슈팅 요약
+
+## 1. 낙하 데미지 적용 안됨  
+- **문제**: 추락해도 데미지 없음  
+- **해결**: `PlayerController.FixedUpdate()`에서 `CheckFallDamage()` 직접 호출
+
+## 2. 조사 UI 작동 안함  
+- **문제**: 생선 조사해도 UI 안 뜸  
+- **해결**:  
+  - `BoxCollider` 추가  
+  - Raycast 기준을 `CameraContainer.forward`로 수정  
+  - `InspectableObject` & `InspectableData` 구조 도입
+
+## 3. TMP 한글 출력 오류  
+- **문제**: 설명에 한글이 안 나옴  
+- **해결**:  
+  - `Black Han Sans` 폰트 적용  
+  - TMP Font Asset 생성 후 연결
+
+## 4. 점프대 무반응  
+- **문제**: 플레이어가 밟아도 튕기지 않음  
+- **해결**:  
+  - `OnCollisionEnter()`에 `CompareTag("Player")` 추가  
+  - `AddForce(..., ForceMode.Impulse)` 적용
+
+## 5. 아이템 효과 즉시 종료  
+- **문제**: 점프력 버프가 바로 사라짐  
+- **해결**: `ApplyJumpBoost()`에 Coroutine으로 지속 시간 처리
+
+## 6. 애니메이션 재생 안됨  
+- **문제**: Jump, Run 애니메이션 반응 없음  
+- **해결**:  
+  - `PlayerAnimator` 분리  
+  - 파라미터 이름 정확히 일치  
+  - Animator 수동 연결
+
+## 7. 애니메이션 너무 빨리 꺼짐  
+- **문제**: 점프 애니메이션이 깜빡임  
+- **해결**: `Has Exit Time` 및 `Transition Duration` 조정
+
+---
+
+## ✅ 결과 요약
+
+- 상호작용, 폰트, 소비형 아이템, 점프대, 애니메이션 모두 정상 작동  
+- 책임 분리 (`PlayerMovement` ↔ `PlayerAnimator`)로 구조 개선  
+- ScriptableObject 및 Enum 기반 확장 가능 설계 완료
+
