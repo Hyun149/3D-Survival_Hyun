@@ -23,8 +23,6 @@ public class PlayerLook : MonoBehaviour
 
     public void HandleLook()
     {
-        Debug.Log($"[∑Ë] ¿Œ«≤: {input.LookInput}");
-
         Vector2 delta = input.LookInput;
 
         if (!canLook)

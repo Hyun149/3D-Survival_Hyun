@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void FixedUpdate()
+    {
+        fallDamage.CheckFallDamage();
+    }
 
     /// <summary>
     /// 카메라 회전은 LateUpdate에서 처리 (시점 흔들림 방지용)
