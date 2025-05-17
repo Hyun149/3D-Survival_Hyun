@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어의 이동 및 점프 처리를 담당하는 컴포넌트
+/// 입력값 기반으로 Rigidbody 이동 및 점프를 실행하며, 애니메이션 연동과
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -14,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     private GroundChecker groundChecker;
     private PlayerAnimator playerAnimator;
 
+    /// <summary>
+    /// 관련 컴포넌트 초기화
+    /// </summary>
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<PlayerAnimator>();
     }
 
+    /// <summary>
+    /// 고정 주기마다 이동 및 점프 처리
+    /// </summary>
     void FixedUpdate()
     {
         Move();
@@ -36,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 입력된 방향에 따라 Rigidbody
+    /// 입력된 방향에 따라 Rigidbody 이동 및 달리기 애니메이션 트리거
     /// </summary>
     private void Move()
     {
@@ -52,11 +62,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 일정 시간동안 점프력을 증가시키는 버프 적용
+    /// </summary>
+    /// <param name="amount">추가 점프력</param>
+    /// <param name="duration">버프 지속 시간 (초)</param>
     public void ApplyJumpBoost(float amount, float duration)
     {
         StartCoroutine(JumpBoostRoutine(amount, duration));
     }
 
+    /// <summary>
+    /// 점프력 버프 처리 코루틴
+    /// </summary>
     private IEnumerator JumpBoostRoutine(float amount, float duration)
     {
         jumpPower += amount;

@@ -133,34 +133,34 @@ AnimatorStateMachine:
     m_Position: {x: 520, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1355675424477613586}
-    m_Position: {x: 570, y: 410, z: 0}
+    m_Position: {x: 570, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5687998148164550873}
     m_Position: {x: -190, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4171806372878265382}
-    m_Position: {x: 520, y: 560, z: 0}
+    m_Position: {x: 600, y: 450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5695310403801427062}
-    m_Position: {x: 520, y: 760, z: 0}
+    m_Position: {x: 620, y: 740, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2623328637644902569}
-    m_Position: {x: 520, y: 810, z: 0}
+    m_Position: {x: 490, y: 860, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5823023316003678689}
-    m_Position: {x: 520, y: 1210, z: 0}
+    m_Position: {x: 340, y: 1200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7996021536020428740}
-    m_Position: {x: 520, y: 1010, z: 0}
+    m_Position: {x: 580, y: 990, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4445768115607419177}
-    m_Position: {x: 320, y: 980, z: 0}
+    m_Position: {x: 20, y: 890, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6675135173472620227}
     m_Position: {x: 520, y: 1110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5991896809472266830}
-    m_Position: {x: 520, y: 1160, z: 0}
+    m_Position: {x: 560, y: 1200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 4290792972570245180}
@@ -1037,7 +1037,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Eat 1
+  m_Name: Attack3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

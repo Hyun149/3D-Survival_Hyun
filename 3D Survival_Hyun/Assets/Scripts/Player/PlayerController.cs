@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 플레이어 이동, 점프, 마우스 회전 제어를 담당하는 컨트롤러 클래스
+/// 플레이어 입력 처리, 이동/회전 제어, 낙하 데미지 등을 통합 관리하는 컨트롤러 클래스
+/// 주요 기능은 각 전용 컴포넌트(PlayerLook, PlayerMovement 등)에 위임함
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInputHandler input;
 
     /// <summary>
-    /// 컴포넌트 초기화 (Rigidbody 할당)
+    /// 관련 컴포넌트 참조 초기화 
     /// </summary>
     private void Awake()
     {
@@ -31,6 +32,9 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    /// <summary>
+    /// 물리 연산 처리: 낙하 데미지 체크
+    /// </summary>
     private void FixedUpdate()
     {
         fallDamage.CheckFallDamage();
@@ -54,20 +58,28 @@ public class PlayerController : MonoBehaviour
         input.OnLookInput(context);
     }
 
+    /// <summary>
+    /// 이동 입력 처리
+    /// </summary>
+    /// <param name="context"></param>
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         input.OnMoveInput(context);
     }
 
+    /// <summary>
+    /// 점프 입력 처리
+    /// </summary>
+    /// <param name="context"></param>
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         input.OnJumpInput(context);
     }
 
     /// <summary>
-    /// 마우스 커서 잠금 상태를 토글하는 메서드
+    /// 마우스 커서 잠금 상태를 토글하고, 시점 제어도 동기화
     /// </summary>
-    /// <param name="toggle"></param>
+    /// <param name="toggle">true면 커서 해제, false면 잠금</param>
     public void ToggleCursor(bool toggle)
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;

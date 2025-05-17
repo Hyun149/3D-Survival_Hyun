@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 카메라 시야 방향으로 Ray를 쏴서 상호작용 가능한 오브젝트를 감지하고
+/// 해당 정보를 UIManager를 통해 화면에 표시하는 컴포넌트
+/// </summary>
 public class PlayerRaycaster : MonoBehaviour
 {
     [SerializeField] private float rayDistance = 5f;

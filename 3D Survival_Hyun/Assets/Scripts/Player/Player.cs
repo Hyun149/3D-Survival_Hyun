@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class Player : MonoBehaviour
 {
-    public PlayerController controller;
+    [SerializeField] private PlayerController controller;
 
     /// <summary>
     /// 게임 시작 시 CharacterManager에 자신을 등록하고 PlayerController를 할당
