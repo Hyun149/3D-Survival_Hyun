@@ -42,4 +42,16 @@ public class PlayerMovement : MonoBehaviour
         direction.y = rb.velocity.y;
         rb.velocity = direction;
     }
+
+    public void ApplyJumpBoost(float amount, float duration)
+    {
+        StartCoroutine(JumpBoostRoutine(amount, duration));
+    }
+
+    private IEnumerator JumpBoostRoutine(float amount, float duration)
+    {
+        jumpPower += amount;
+        yield return new WaitForSeconds(duration);
+        jumpPower -= amount;
+    }
 }
