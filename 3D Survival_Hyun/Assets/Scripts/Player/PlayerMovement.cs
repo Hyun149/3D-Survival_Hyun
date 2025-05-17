@@ -12,12 +12,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private PlayerInputHandler input;
     private GroundChecker groundChecker;
+    private PlayerAnimator playerAnimator;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<PlayerInputHandler>();
         groundChecker = GetComponent<GroundChecker>();
+        playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     void FixedUpdate()
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         if (input.JumpPressed && groundChecker.IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            playerAnimator?.PlayJump();
         }
 
         input.ClearInput();
@@ -41,6 +44,12 @@ public class PlayerMovement : MonoBehaviour
         direction *= moveSpeed;
         direction.y = rb.velocity.y;
         rb.velocity = direction;
+
+        if (playerAnimator != null)
+        {
+            bool isRunning = input.MovementInput.magnitude > 0.1f;
+            playerAnimator.SetRunning(isRunning);
+        }
     }
 
     public void ApplyJumpBoost(float amount, float duration)
