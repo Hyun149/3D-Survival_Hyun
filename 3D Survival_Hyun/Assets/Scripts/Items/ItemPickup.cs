@@ -20,28 +20,18 @@ public class ItemPickup : MonoBehaviour, IPoolable
     }
 
     /// <summary>
-    /// 풀로 오브젝트 반환 처리
-    /// </summary>
-    public void ReturnToPool()
-    {
-        originPool?.Return(gameObject);
-    }
-
-    /// <summary>
-    /// 플레이어와 충돌 시 아이템 효과 적용 및 풀 반환
+    /// 플레이어와 충돌 시 아이템 효과 적용 및 5초 후 재활성화
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        // 1. 플레이어의 ItemUseHandler 컴포넌트 찾기
         var handler = other.GetComponent<ItemUseHandler>();
         if (handler != null && itemData != null)
         {
             handler.UseItem(itemData);
         }
 
-        // 2. 풀로 반환
-        originPool?.Return(gameObject);
+        ItemRespawner.Instance.RespawnAfterDelay(this.gameObject, 5f);
     }
 }
