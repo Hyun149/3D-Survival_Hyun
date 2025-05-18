@@ -170,3 +170,81 @@ Unity 기반 3D 생존 액션 게임
 - ScriptableObject 및 Enum 기반 확장 가능 설계 완료
 ---
 ---
+## 📅 2025-05-18 트러블슈팅 로그
+
+---
+
+### 🛠 주요 정비 항목 요약
+
+#### 📘 `docs(comment)`: 스크립트 주석 정비 및 책임 명시
+- `Enum.cs`, `ItemData.cs`, `InspectableData.cs` 등 ScriptableObject 및 Enum 클래스에 역할 주석 추가
+- `PlayerMovement`, `PlayerController`, `PlayerFallDamage` 등 주요 플레이어 로직에 책임 기반 설명 주석 보완
+- `UIManager`, `JumpPad`, `ItemPickup` 등 기능 스크립트에 흐름 중심 주석 삽입
+- 전체적으로 코드 문서화 수준 향상 및 팀원 협업 가독성 개선 목적
+
+---
+
+### 🔄 `feat(item-pool)`: 아이템 풀링 시스템 및 소비형 아이템 통합 구현
+
+#### 🔧 주요 구현 내용
+- `IPoolable` 인터페이스 도입 → 풀 객체에게 소속 풀 정보 주입 (`SetPool`)
+- `ObjectPool` 클래스 생성 → 풀 내부 Queue 구조 및 동적 생성 처리
+- `PoolManager` 확장 → `PoolType` 기반 등록 / 요청 / 반환 통합 관리
+- `ItemPickup.cs`에서 `Player`와 충돌 시, `ItemUseHandler.UseItem()` 호출 후 **풀 복귀 or 재활성화 대기**
+
+#### ✅ 적용 사례
+- `JumpPumkin` → 점프력 증가 (버프)
+- `HealFish` → 체력 회복 (힐)
+
+---
+
+### 💡 `feat(item)`: 소비형 아이템 효과 정리 및 통합
+
+- `ItemData`에 다음 필드 추가:
+  - `float healAmount`
+  - `float jumpBoost`
+  - `float duration`
+
+- `ItemUseHandler.cs`에서 `"호박"`은 `ApplyJumpBoost()` 호출  
+- `"연어"`는 `PlayerHealth.Heal()` 호출로 체력 회복 처리
+
+- `HealItem.cs` 제거 → 전용 스크립트 대신 **데이터 기반으로 효과 통합**
+
+---
+
+### 🔁 `feat(item-respawn)`: 아이템 리스폰 시스템 구현
+
+- `ItemRespawner.cs` 도입 → 일정 시간 후 오브젝트 `SetActive(true)` 처리
+- `ItemPickup.cs`에서 기존 `originPool.Return()` 제거 → 충돌 후 `ItemRespawner.Instance.RespawnAfterDelay(...)` 사용
+- `MainScene`에 `ItemRespawner` 매니저 오브젝트 배치
+
+---
+
+### ⚠️ `refactor(fall)`: 낙하 데미지 기준 리팩토링
+
+#### 기존 문제
+- `previousYVelocity` 한 프레임 기준으로 착지 시점 판단
+- 점프대 등에서 리셋되거나 타이밍상 데미지 미적용
+
+#### 해결 방법
+- `minYVelocity`로 **낙하 중 가장 빠른 속도 기록**
+- `fallTime`으로 짧은 낙하 제외
+- `speedThreshold` 기준 비교 → 데미지 = `abs(minYVelocity) * multiplier`
+- `Debug.Log()`로 착지 속도 및 데미지 실시간 확인
+
+---
+
+## ✅ 최종 결과
+
+- ✅ 아이템 효과 정상 작동 (호박 → 점프, 연어 → 체력 회복)
+- ✅ 풀링 기반 구조 확립 → 메모리 절약 및 반복 사용 가능
+- ✅ 낙하 데미지 기준 개선 → 점프대 등 복합 구조에서도 안정적 동작
+- ✅ 상호작용 UI, 리스폰, 소비 로직 모두 일관된 구조로 정비됨
+
+---
+
+## 🧭 다음 목표
+
+- [ ] 다양한 아이템 확장 및 PoolType 분리
+- [ ] 지형별 낙하 데미지 감쇠 계수 적용
+- [ ] 버프/디버프 HUD 시각화 및 타이머 표시
