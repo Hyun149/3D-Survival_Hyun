@@ -12,6 +12,9 @@ public class PlayerRaycaster : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private Transform cameraContainder;
 
+    /// <summary>
+    /// 매 프레임마다 카메라 전방으로 Ray를 발사해 상호작용 대상 탐색
+    /// </summary>
     private void Update()
     {
         Vector3 origin = cameraContainder.position;

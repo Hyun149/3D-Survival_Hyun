@@ -8,3 +8,12 @@ public enum ItemType
     Equipment,
     Quest
 }
+
+/// <summary>
+/// 풀 종류를 분류하기 위한 열거형 (등록 및 구분용)
+/// </summary>
+public enum PoolType
+{
+    JumpPumkin,
+    HealFish
+}
