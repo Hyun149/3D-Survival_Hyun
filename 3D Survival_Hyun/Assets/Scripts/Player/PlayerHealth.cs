@@ -32,4 +32,13 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth - amount, 0);
         healthBar.value = currentHealth;
     }
+
+    /// <summary>
+    /// 외부에서 체력 회복 처리
+    /// </summary>
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        healthBar.value = currentHealth;
+    }
 }

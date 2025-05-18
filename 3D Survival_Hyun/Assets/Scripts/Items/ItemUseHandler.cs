@@ -38,5 +38,15 @@ public class ItemUseHandler : MonoBehaviour
             playerMovement.ApplyJumpBoost(20f, 5f);
             Debug.Log("호박을 먹었다! 일정시간동안 점프력이 상승합니다!");
         }
+
+        if (item.itemName == "연어")
+        {
+            var health = GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.Heal(item.healAmount);
+                Debug.Log("연어를 먹었다! 체력 회복!");
+            }
+        }
     }
 }

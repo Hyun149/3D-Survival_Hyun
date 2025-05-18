@@ -1,18 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// °ÔÀÓ ¾ÆÀÌÅÛÀÇ Á¤º¸¸¦ Á¤ÀÇÇÏ´Â µ¥ÀÌÅÍ Å¬·¡½º
-/// ScriptableObject ÇüÅÂ·Î »ı¼ºÇÏ¿© ÀÌ¸§, ¼³¸í, ¾ÆÀÌÄÜ, È¿°ú°ª µîÀ» °ü¸®ÇÔ
+/// ê²Œì„ ì•„ì´í…œì˜ ì •ë³´ë¥¼ ì •ì˜í•˜ëŠ” ë°ì´í„° í´ë˜ìŠ¤
+/// ScriptableObject í˜•íƒœë¡œ ìƒì„±í•˜ì—¬ ì´ë¦„, ì„¤ëª…, ì•„ì´ì½˜, íš¨ê³¼ê°’ ë“±ì„ ê´€ë¦¬í•¨
 /// </summary>
 [CreateAssetMenu(menuName ="Game/Item Data")]
 public class ItemData : ScriptableObject
 {
     public string itemName;
-    [TextArea] public string description;
     public ItemType itemType;
 
-    public Sprite icon;
-    public int Value;
+    [Header("ì†Œë¹„ ì•„ì´í…œ ì „ìš© ì˜µì…˜")]
+    public float healAmount;     // ì²´ë ¥ íšŒë³µëŸ‰
+    public float jumpBoost;      // (ì„ íƒ) ì í”„ë ¥ ì¦ê°€
+    public float duration;       // (ì„ íƒ) ë²„í”„ ì§€ì† ì‹œê°„
 }

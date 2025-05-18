@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e236d768ccb5b8c40b15d5cd0f134790, type: 3}
-  m_Name: JumpPumkin
+  m_Name: HealFish
   m_EditorClassIdentifier: 
-  itemName: "\uD638\uBC15"
+  itemName: "\uC5F0\uC5B4"
   itemType: 0
-  healAmount: 0
-  jumpBoost: 20
-  duration: 5
+  healAmount: 30
+  jumpBoost: 0
+  duration: 0
