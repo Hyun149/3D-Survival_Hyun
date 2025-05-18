@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: "\uD638\uBC15"
   itemType: 0
   healAmount: 0
-  jumpBoost: 10
+  jumpBoost: 5
   duration: 5

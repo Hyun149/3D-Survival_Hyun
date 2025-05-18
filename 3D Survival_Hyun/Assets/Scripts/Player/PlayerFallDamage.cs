@@ -9,9 +9,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerFallDamage : MonoBehaviour
 {
-    [SerializeField] private float fallDamageThreshold = -15f;
+    [SerializeField] private float speedThreshold = -12f;
+    [SerializeField] private float damageMultiplier = 2f;
 
-    private float previousYvelocity = 0f;
+    private float previousYVelocity = 0f;
     private Rigidbody rb;
     private PlayerHealth playerHealth;
     private GroundChecker groundChecker;
@@ -23,6 +24,11 @@ public class PlayerFallDamage : MonoBehaviour
         groundChecker = GetComponent<GroundChecker>();
     }
 
+    private void Update()
+    {
+        CheckFallDamage();
+    }
+
     /// <summary>
     /// 현재 지면에 닿았는지 확인하고, 이전 프레임에서의 낙하 속도를 기준으로 낙하 데미지를 적용함
     /// </summary>
@@ -30,17 +36,24 @@ public class PlayerFallDamage : MonoBehaviour
     {
         if (groundChecker.IsGrounded())
         {
-            if (previousYvelocity < fallDamageThreshold)
+            if (previousYVelocity < speedThreshold)
             {
-                float damage = Mathf.Abs(previousYvelocity) * 2f;
+                float damage = Mathf.Abs(previousYVelocity) * damageMultiplier;
                 playerHealth?.TakeDamage(damage);
+
+                Debug.Log($"[FallDamage] 착지 속도 {previousYVelocity:F1} → {damage:F1} 데미지");
             }
 
-            previousYvelocity = 0f;
+            if (previousYVelocity < 0)
+            {
+                Debug.Log($"[착지] 이전 낙하 속도: {previousYVelocity:F2}");
+            }
+
+            previousYVelocity = 0f;
         }
         else
         {
-            previousYvelocity = rb.velocity.y;
+            previousYVelocity = rb.velocity.y;
         }
     }
 }
