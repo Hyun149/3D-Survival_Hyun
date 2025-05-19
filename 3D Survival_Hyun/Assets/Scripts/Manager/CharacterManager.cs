@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 /// <summary>
 /// 플레이어 캐릭터를 전역에서 관리하는 싱글톤 클래스
@@ -15,8 +15,7 @@ public class CharacterManager : MonoBehaviour
         get
         {
             if (_instance == null)
-            {
-                _instance = new GameObject("CharacerManager").AddComponent<CharacterManager>();
+            {                _instance = new GameObject("CharacerManager").AddComponent<CharacterManager>();
             }
             return _instance;
         }
@@ -50,4 +49,4 @@ public class CharacterManager : MonoBehaviour
             }
         }
     }
-}
+}*/

@@ -13,6 +13,8 @@ public class StaminaSystem : MonoBehaviour
     private float currentStamina;
 
     public event Action<float, float> OnStaminaChanged;
+    public float MaxStamina => maxStamina;
+    public float CurrentStamina => currentStamina;
 
     private void Awake()
     {
