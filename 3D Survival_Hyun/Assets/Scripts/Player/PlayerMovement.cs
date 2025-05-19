@@ -11,12 +11,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpPower = 10f;
+    [SerializeField] private PlayerInputHandler inputHandler;
+    [SerializeField] private PlayerDoubleJump doubleJump;
+    [SerializeField] private PlayerDash playerDash;
 
 
     private Rigidbody rb;
     private PlayerInputHandler input;
     private GroundChecker groundChecker;
     private PlayerAnimator playerAnimator;
+    private bool isDashing = false;
 
     /// <summary>
     /// 관련 컴포넌트 초기화
@@ -41,6 +45,16 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             playerAnimator?.PlayJump();
         }
+        else if(input.JumpPressed && !groundChecker.IsGrounded())
+        {
+            doubleJump.TryJump();
+        }
+
+        if (input.DashPressed)
+        {
+            Vector3 dir = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
+            playerDash.TryDash(dir);
+        }
 
         input.ClearInput();
     }
@@ -50,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         Vector3 direction = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
         direction *= moveSpeed;
         direction.y = rb.velocity.y;
@@ -80,5 +99,17 @@ public class PlayerMovement : MonoBehaviour
         jumpPower += amount;
         yield return new WaitForSeconds(duration);
         jumpPower -= amount;
+    }
+
+    public void NotifyDshStart()
+    {
+        isDashing = true;
+        StartCoroutine(EndDashAfter(0.2f));
+    }
+
+    private IEnumerator EndDashAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isDashing = false;
     }
 }

@@ -9,9 +9,14 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
+    [SerializeField] private PlayerDash playerDash;
+    [SerializeField] private PlayerDoubleJump playerDoubleJump;
+
     public Vector2 MovementInput { get; private set; }
     public bool JumpPressed { get; private set; }
     public Vector2 LookInput { get; private set; }
+
+    public bool DashPressed { get; private set; }
 
     /// <summary>
     /// 이동 입력을 처리하여 MovementInput에 저장
@@ -40,6 +45,7 @@ public class PlayerInputHandler : MonoBehaviour
     public void ClearInput()
     {
         JumpPressed = false;
+        DashPressed = false;
     }
 
     /// <summary>
@@ -49,5 +55,13 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnLookInput(InputAction.CallbackContext context)
     {
         LookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            DashPressed = true;
+        }
     }
 }
