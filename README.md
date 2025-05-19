@@ -60,7 +60,7 @@ Unity 기반 3D 생존 액션 게임
 ---
 
 🛠 트러블 슈팅 모음
-# 📅 2025년 5월 16일 트러블슈팅 기록
+# 📅 2025년 5월 16일 트러블슈팅 로그그
 
 ## 🎮 Unity 3D 생존 프로젝트 - 플레이어 시스템 리팩토링
 
@@ -121,7 +121,7 @@ Unity 기반 3D 생존 액션 게임
 > ⛳ 다음 목표: 필수 기능 구현하기
 ---
 ---
-# 🛠 2025-05-17 트러블 슈팅 요약
+# 🛠 2025-05-17 트러블 슈팅 로그그
 
 ## 1. 낙하 데미지 적용 안됨  
 - **문제**: 추락해도 데미지 없음  
@@ -248,3 +248,59 @@ Unity 기반 3D 생존 액션 게임
 - [ ] 점프나 대쉬 등 특정 행동 시 소모되는 스태미나를 표시하는 바 구현
 - [ ] 움직이는 플랫폼 구현
 - [ ] 버프/디버프 HUD 시각화 및 타이머 표시
+---
+---
+## 📅 2025-05-18 트러블슈팅 로그
+
+## 🚩 이슈 개요
+**PlayerController.cs 리팩토링 도중 NullReferenceException 발생**
+
+SRP(Single Responsibility Principle)를 기반으로 구조 개선을 시도하며  
+`PlayerMovement`, `PlayerJump`, `PlayerDash`, `PlayerLook` 등을 별도 컴포넌트로 분리했으나  
+**의존성 주입과 초기화 순서**의 문제로 인해 다수의 `NullReferenceException`이 발생함.
+
+---
+
+## 🧩 문제 상세
+
+| 항목 | 내용 |
+|------|------|
+| 발생 위치 | `PlayerController.cs`, `PlayerMovement.cs`, `PlayerDash.cs` 등 |
+| 원인 | `GetComponent` 호출 시점이 `Awake`보다 느리거나, 종속성 주입 누락 |
+| 의도 | 단일 책임 원칙에 따라 Player 컨트롤 로직 분리 |
+| 증상 | 점프, 대쉬, 회전 등 일부 기능 비정상 작동 또는 Null 오류 발생 |
+
+---
+
+## 🔍 시도한 해결 과정
+
+- `PlayerController`에서 서브 컴포넌트 전부 명시적 초기화 시도 (`Awake → Start` 순서 점검)
+- `RequireComponent`와 `SerializeField` 병행 사용으로 의존성 해결 시도
+- 중복으로 참조되던 `Player.cs` 내 컴포넌트 참조 제거
+- `PlayerInputHandler`에서 입력 통합 처리 시도 → 내부 공유 방식 충돌로 보류
+- **결국 리팩토링 브랜치 폐기, 기존 커밋으로 롤백 처리**
+
+---
+
+## ✅ 최종 구조 및 조치
+
+- `PlayerController.cs` → 기능 분기용 허브로 **최소화**
+- 기능별 스크립트를 다음과 같이 **폴더별 정리**  
+  - `Systems/` → StaminaSystem, GroundChecker 등  
+  - `Abilities/` → PlayerDash, PlayerDoubleJump 등  
+  - `States/` → PlayerState, GroundChecker 등  
+  - `View/` → StaminaBarUI 등
+- 구조는 유지하고 **기능 정상 작동 확인 완료**
+
+---
+
+## 💡 교훈 및 인사이트
+
+- ✅ **리팩토링 전 설계 명확화 필수**  
+  - 특히 컴포넌트 간 종속성이 복잡한 경우, 설계 없이 리팩토링 시 오히려 기능 파괴 가능성 ↑
+
+- ✅ **동작하는 시스템은 가급적 점진적 개선으로 접근할 것**  
+  - 전면 구조 변경은 매우 높은 리스크 동반
+
+- ✅ **Rollback은 패배가 아님**  
+  - 실험의 일부로 받아들이고, 실패에서 얻은 통찰은 구조 개선에 장기적으로 기여함
