@@ -39,24 +39,35 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        HandleJump();
+        HandleDash();
+        input.ClearInput();
+    }
 
-        if (input.JumpPressed && groundChecker.IsGrounded())
+    /// <summary>
+    /// 점프 및 이중 점프 처리 분기
+    /// </summary>
+    private void HandleJump()
+    {
+        if (!input.JumpPressed) return;
+
+        if (groundChecker.IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             playerAnimator?.PlayJump();
         }
-        else if(input.JumpPressed && !groundChecker.IsGrounded())
+        else
         {
             doubleJump.TryJump();
         }
+    }
 
-        if (input.DashPressed)
-        {
-            Vector3 dir = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
-            playerDash.TryDash(dir);
-        }
+    private void HandleDash()
+    {
+        if (!input.DashPressed) return;
 
-        input.ClearInput();
+        Vector3 directtion = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
+        playerDash.TryDash(directtion);
     }
 
     /// <summary>
@@ -64,10 +75,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (isDashing)
-        {
-            return;
-        }
+        if (isDashing) return;
 
         Vector3 direction = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
         direction *= moveSpeed;

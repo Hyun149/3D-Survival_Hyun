@@ -710,6 +710,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b41ba4c79702547a89de7544b80656, type: 3}
+--- !u!1 &795717797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2807940955490974254, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+  m_PrefabInstance: {fileID: 1837823878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &795717804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795717797}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05708042, y: 0.24608962, z: 0.050565567}
+  m_Center: {x: -0.0051319706, y: 0.12304481, z: -0.000069561}
 --- !u!1 &890933051
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,10 +1503,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom(JumpPad)
       objectReference: {fileID: 0}
+    - target: {fileID: 5309464516303548325, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      propertyPath: m_Size.y
+      value: 0.06756833
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309464516303548325, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      propertyPath: m_Size.z
+      value: 0.18833987
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309464516303548325, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      propertyPath: m_Center.x
+      value: 0.010598878
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309464516303548325, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      propertyPath: m_Center.y
+      value: 0.21230793
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309464516303548325, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      propertyPath: m_Center.z
+      value: 0.006839981
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2807940955490974254, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 795717804}
   m_SourcePrefab: {fileID: 100100000, guid: b87c30b9056d0fb4dbb257b188a32501, type: 3}
 --- !u!1 &1853933830
 GameObject:
