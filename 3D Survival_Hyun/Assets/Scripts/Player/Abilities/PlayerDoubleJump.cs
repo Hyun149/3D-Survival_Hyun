@@ -9,42 +9,30 @@ public class PlayerDoubleJump : MonoBehaviour
 {
     [SerializeField] private float doubleJumpForce = 7f;
     [SerializeField] private float StaminaCost = 20f;
-    [SerializeField] private GroundChecker groundChecker;
 
     private Rigidbody rb;
     private StaminaSystem staminaSystem;
-    private bool hasDoubleJumped = false;
+    public bool HasDoubleJumped { get; private set; }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         staminaSystem = GetComponent<StaminaSystem>();
-        groundChecker = GetComponent<GroundChecker>();
     }
 
-    public void TryJump()
+    public bool TryDoubleJump()
     {
-        if (hasDoubleJumped)
-        {
-            return;
-        }
-        if (!staminaSystem.Consume(StaminaCost))
-        {
-            return;
-        }
+        if (HasDoubleJumped) return false;
+        if (!staminaSystem.Consume(StaminaCost)) return false;
 
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
-        hasDoubleJumped = true;
+        HasDoubleJumped = true;
+        return true;
     }
 
-    private void FixedUpdate()
+    public void ResetDoubleJump()
     {
-        if (groundChecker.IsGrounded())
-        {
-            hasDoubleJumped = false;
-        }
+        HasDoubleJumped = false;
     }
-
-    private bool isGround => Physics.Raycast(transform.position, Vector3.down, 1.1f);
 }

@@ -3,34 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 플레이어의 이동 및 점프 처리를 담당하는 컴포넌트
-/// 입력값 기반으로 Rigidbody 이동 및 점프를 실행하며, 애니메이션 연동과
+/// 플레이어의 이동 및 대시 처리를 담당하는 컴포넌트
 /// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpPower = 10f;
     [SerializeField] private PlayerInputHandler inputHandler;
-    [SerializeField] private PlayerDoubleJump doubleJump;
+    [SerializeField] private PlayerJumpHandler jumpHandler;
     [SerializeField] private PlayerDash playerDash;
 
 
     private Rigidbody rb;
-    private PlayerInputHandler input;
     private GroundChecker groundChecker;
     private PlayerAnimator playerAnimator;
     private bool isDashing = false;
 
-    /// <summary>
-    /// 관련 컴포넌트 초기화
-    /// </summary>
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        input = GetComponent<PlayerInputHandler>();
-        groundChecker = GetComponent<GroundChecker>();
-        playerAnimator = GetComponent<PlayerAnimator>();
+        if (jumpHandler == null) jumpHandler = GetComponent<PlayerJumpHandler>();
+        if (playerDash == null) playerDash = GetComponent<PlayerDash>();
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        if (groundChecker == null) groundChecker = GetComponent<GroundChecker>();
+        if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
+        if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
     }
 
     /// <summary>
@@ -39,32 +35,14 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
-        HandleJump();
+        jumpHandler.TryJump(inputHandler.JumpPressed);
         HandleDash();
-        input.ClearInput();
-    }
-
-    /// <summary>
-    /// 점프 및 이중 점프 처리 분기
-    /// </summary>
-    private void HandleJump()
-    {
-        if (!input.JumpPressed) return;
-
-        if (groundChecker.IsGrounded())
-        {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            playerAnimator?.PlayJump();
-        }
-        else
-        {
-            doubleJump.TryJump();
-        }
+        inputHandler.ClearInput();
     }
 
     private void HandleDash()
     {
-        if (!input.DashPressed) return;
+        if (!inputHandler.DashPressed) return;
 
         Vector3 directtion = GetMoveDirection();
         playerDash.TryDash(directtion);
@@ -76,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     /// <returns></returns>
     private Vector3 GetMoveDirection()
     {
-        return transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
+        return transform.forward * inputHandler.MovementInput.y + transform.right * inputHandler.MovementInput.x;
     }
 
     /// <summary>
@@ -86,39 +64,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDashing) return;
 
-        Vector3 direction = GetMoveDirection();
-        direction *= moveSpeed;
+        Vector3 direction = GetMoveDirection() * moveSpeed;
         direction.y = rb.velocity.y;
         rb.velocity = direction;
 
         if (playerAnimator != null)
         {
-            bool isRunning = input.MovementInput.magnitude > 0.1f;
+            bool isRunning = inputHandler.MovementInput.magnitude > 0.1f && groundChecker.IsGrounded() && !isDashing;
+
             playerAnimator.SetRunning(isRunning);
         }
     }
 
-    /// <summary>
-    /// 일정 시간동안 점프력을 증가시키는 버프 적용
-    /// </summary>
-    /// <param name="amount">추가 점프력</param>
-    /// <param name="duration">버프 지속 시간 (초)</param>
-    public void ApplyJumpBoost(float amount, float duration)
-    {
-        StartCoroutine(JumpBoostRoutine(amount, duration));
-    }
-
-    /// <summary>
-    /// 점프력 버프 처리 코루틴
-    /// </summary>
-    private IEnumerator JumpBoostRoutine(float amount, float duration)
-    {
-        jumpPower += amount;
-        yield return new WaitForSeconds(duration);
-        jumpPower -= amount;
-    }
-
-    public void NotifyDshStart()
+    public void NotifyDashStart()
     {
         isDashing = true;
         StartCoroutine(EndDashAfter(0.2f));

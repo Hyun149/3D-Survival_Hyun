@@ -33,7 +33,7 @@ public class PlayerDash : MonoBehaviour
         }
 
         rb.velocity = direction.normalized * dashForce;
-        GetComponent<PlayerMovement>()?.NotifyDshStart();
+        GetComponent<PlayerMovement>()?.NotifyDashStart();
         StartCoroutine(DashCooldown());
     }
 

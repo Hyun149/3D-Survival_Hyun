@@ -8,7 +8,13 @@ using UnityEngine;
 /// </summary>
 public class ItemUseHandler : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerJumpHandler playerJumpHandler;
+
+    private void Awake()
+    {
+        if (playerJumpHandler == null)
+            playerJumpHandler = FindObjectOfType<PlayerJumpHandler>();
+    }
 
     /// <summary>
     /// 전달받은 아이템을 타입에 따라 사용 처리
@@ -35,7 +41,7 @@ public class ItemUseHandler : MonoBehaviour
     {
         if (item.itemName == "호박")
         {
-            playerMovement.ApplyJumpBoost(20f, 5f);
+            playerJumpHandler.ApplyJumpBoost(20f, 5f);
             Debug.Log("호박을 먹었다! 일정시간동안 점프력이 상승합니다!");
         }
 
