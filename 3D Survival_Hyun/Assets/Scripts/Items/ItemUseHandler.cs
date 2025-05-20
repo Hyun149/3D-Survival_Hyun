@@ -41,7 +41,7 @@ public class ItemUseHandler : MonoBehaviour
     {
         if (item.itemName == "호박")
         {
-            playerJumpHandler.ApplyJumpBoost(20f, 5f);
+            playerJumpHandler.ApplyJumpBoost(15f, 5f);
             Debug.Log("호박을 먹었다! 일정시간동안 점프력이 상승합니다!");
         }
 

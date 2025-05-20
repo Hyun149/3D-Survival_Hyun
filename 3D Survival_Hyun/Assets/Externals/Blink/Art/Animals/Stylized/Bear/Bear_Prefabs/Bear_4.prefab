@@ -226,9 +226,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -4.999939, y: 0.000008583069}
+  m_SizeDelta: {x: 8.58, y: 0}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7075481522449690870
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1862,9 +1862,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -5.3700027, y: -0.000017166138}
+  m_SizeDelta: {x: 9.02, y: 0}
+  m_Pivot: {x: 0, y: 0.49999997}
 --- !u!222 &572020621390325137
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1894,10 +1894,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 3
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 0
+  m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -2529,6 +2529,8 @@ GameObject:
   - component: {fileID: 7562695256507817038}
   - component: {fileID: 3602242028080543644}
   - component: {fileID: 3944961102023452621}
+  - component: {fileID: 3484023678809933419}
+  - component: {fileID: 8976056050470847963}
   m_Layer: 0
   m_Name: Bear_4
   m_TagString: Player
@@ -2757,9 +2759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpPower: 9
   inputHandler: {fileID: 3457168251021982220}
-  doubleJump: {fileID: 7408541021672994364}
+  jumpHandler: {fileID: 3484023678809933419}
   playerDash: {fileID: 7562695256507817038}
 --- !u!114 &1435949917305651640
 MonoBehaviour:
@@ -2849,7 +2850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff13fb34df3f66499128376309f39cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 6513432061950182663}
+  playerJumpHandler: {fileID: 3484023678809933419}
 --- !u!114 &7408541021672994364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2864,7 +2865,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doubleJumpForce: 10
   StaminaCost: 20
-  groundChecker: {fileID: 1451187617824864462}
 --- !u!114 &4117571381860301523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2920,8 +2920,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d843a7509b7bc534d85a51633771ebe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staminaFill: {fileID: 2965979870939361289}
+  staminaSlider: {fileID: 7354858893862862284}
   staminaSystem: {fileID: 3602242028080543644}
+--- !u!114 &3484023678809933419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962199819078159310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb55edd42c66f44f9c88bb7d3004575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpPower: 10
+  doubleJump: {fileID: 7408541021672994364}
+  groundChecker: {fileID: 1451187617824864462}
+  rb: {fileID: 7463172290371577137}
+  animator: {fileID: 4117571381860301523}
+--- !u!114 &8976056050470847963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962199819078159310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e54bf51394056e4c83153bc22da086d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8002475675295336084
 GameObject:
   m_ObjectHideFlags: 0

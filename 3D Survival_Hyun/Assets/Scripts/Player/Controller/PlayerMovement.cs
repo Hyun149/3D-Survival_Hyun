@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerAnimator != null)
         {
-            bool isRunning = inputHandler.MovementInput.magnitude > 0.1f && groundChecker.IsGrounded() && !isDashing;
+            bool isRunning = inputHandler.MovementInput.magnitude > 0.1f && !isDashing;
 
             playerAnimator.SetRunning(isRunning);
         }
