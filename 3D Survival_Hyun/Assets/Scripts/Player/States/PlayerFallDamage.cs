@@ -40,13 +40,6 @@ public class PlayerFallDamage : MonoBehaviour
             {
                 float damage = Mathf.Abs(previousYVelocity) * damageMultiplier;
                 playerHealth?.TakeDamage(damage);
-
-                Debug.Log($"[FallDamage] 착지 속도 {previousYVelocity:F1} → {damage:F1} 데미지");
-            }
-
-            if (previousYVelocity < 0)
-            {
-                Debug.Log($"[착지] 이전 낙하 속도: {previousYVelocity:F2}");
             }
 
             previousYVelocity = 0f;
