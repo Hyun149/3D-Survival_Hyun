@@ -66,8 +66,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!input.DashPressed) return;
 
-        Vector3 directtion = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
+        Vector3 directtion = GetMoveDirection();
         playerDash.TryDash(directtion);
+    }
+
+    /// <summary>
+    /// 현재 입력 방향을 기준으로 이동 방향 벡터 계산
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetMoveDirection()
+    {
+        return transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
     }
 
     /// <summary>
@@ -77,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDashing) return;
 
-        Vector3 direction = transform.forward * input.MovementInput.y + transform.right * input.MovementInput.x;
+        Vector3 direction = GetMoveDirection();
         direction *= moveSpeed;
         direction.y = rb.velocity.y;
         rb.velocity = direction;
