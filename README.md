@@ -304,3 +304,51 @@ SRP(Single Responsibility Principle)를 기반으로 구조 개선을 시도하�
 
 - ✅ **Rollback은 패배가 아님**  
   - 실험의 일부로 받아들이고, 실패에서 얻은 통찰은 구조 개선에 장기적으로 기여함
+---
+---
+변경 요약
+
+### 🔁 1. 점프 및 대시 처리 리팩토링
+- **기존 문제점**: `FixedUpdate` 내에서 점프와 대시 처리 로직이 길고 복잡하여 유지보수가 어려움.
+- **개선 내용**:
+  - `HandleJump()`, `HandleDash()` 메서드로 분리하여 SRP 원칙 적용.
+  - 방향 벡터 계산 로직을 `GetMoveDirection()` 메서드로 통합하여 중복 제거.
+- **장점**:
+  - 각 기능별 책임이 분명해져 디버깅 및 확장 용이.
+  - 카메라 축 회전 대응, 슬로우/버프 등 특수 조건 확장 기반 마련.
+
+### ✂️ 2. 점프 시스템 분리 (PlayerJumpHandler 도입)
+- **기존 문제점**: 이중 점프와 점프 버프 처리가 `PlayerMovement` 내부에 혼재.
+- **개선 내용**:
+  - `PlayerJumpHandler` 클래스를 생성하여 점프 전반의 책임을 위임.
+  - `PlayerDoubleJump`에서 외부 상태 제어(`HasDoubleJumped`) 방식으로 변경.
+  - `ItemUseHandler`에서 점프 버프 적용 시 `JumpHandler` 직접 참조하도록 구조 변경.
+- **부가 수정**:
+  - 오타 수정: `NotifyDshStart` → `NotifyDashStart`.
+  - `input` → `inputHandler`로 통일하여 `NullReferenceException` 방지.
+
+### 🧱 3. 플랫폼 탑승 시 위치 보정 기능 구현
+- **기존 문제점**: 플레이어가 이동 플랫폼 위에서 미끄러지는 현상 발생.
+- **개선 내용**:
+  - `PlayerFollowPlatform.cs` 추가: `OnCollisionStay` 내 `DeltaPosition` 기반 보정 처리.
+  - `MovingPlatform.cs`: 외부 참조를 위한 `DeltaPosition` 프로퍼티 제공.
+  - `PlayerMovement.cs`: 애니메이션 판정 시 `IsGrounded` 제거하여 슬라이딩 방지.
+- **관련 요소**:
+  - `MainScene`, `JumpPad`, `TagManager`, 관련 리소스 및 메타 파일 반영.
+
+## ✅ 결과 및 테스트 상태
+- 플레이어가 플랫폼에 안정적으로 탑승하며, 대시/점프/애니메이션 전환이 자연스럽게 작동함.
+- 이동 방향 계산 및 상태 전환 로직의 일관성 유지 확인됨.
+- 디버그 로그와 커스텀 메시지로 의도한 동작 흐름 추적 완료.
+
+## 📚 오늘의 교훈
+- 입력과 물리 기반 로직은 명확하게 분리하고, SRP 기반의 컴포넌트 분산 설계가 유지보수에 유리하다.
+- `DeltaPosition`을 활용한 플랫폼 보정은 `SetParent`보다 부작용이 적고 신뢰성 높음.
+- 동작 처리 흐름을 핸들러로 위임하면 기능 확장/비활성화 조건 관리가 훨씬 깔끔해진다.
+
+## 🧭 다음 목표
+- 벽타기 및 매달리기 구현하기
+- 장비 장착 구현(날개?)하기
+- 레이저 트랩 구현하기
+---
+---
