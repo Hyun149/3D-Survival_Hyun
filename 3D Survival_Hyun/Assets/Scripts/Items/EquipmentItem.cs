@@ -11,6 +11,6 @@ public class EquipmentItem : MonoBehaviour
 
     public virtual void OnEquip()
     {
-        Debug.Log($"{itemName} ÀåÂø.");
+        
     }
 }

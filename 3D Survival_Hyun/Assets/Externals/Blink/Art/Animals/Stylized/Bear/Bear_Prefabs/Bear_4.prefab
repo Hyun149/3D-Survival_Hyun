@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6601728650412041002}
+  - {fileID: 1636202720492707300}
   m_Father: {fileID: 7292658344771522932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &413982993155330487
@@ -2088,6 +2089,37 @@ Transform:
   - {fileID: 8397547987914065858}
   m_Father: {fileID: 1274447657966073904}
   m_LocalEulerAnglesHint: {x: 0.00028420714, y: 0, z: 0}
+--- !u!1 &6029211368827820910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1636202720492707300}
+  m_Layer: 0
+  m_Name: Wings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1636202720492707300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6029211368827820910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.54, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1838717086156636650}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6161828016204200199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +2563,8 @@ GameObject:
   - component: {fileID: 3944961102023452621}
   - component: {fileID: 3484023678809933419}
   - component: {fileID: 8976056050470847963}
+  - component: {fileID: 302568547166338009}
+  - component: {fileID: 1105225414022918612}
   m_Layer: 0
   m_Name: Bear_4
   m_TagString: Player
@@ -2667,6 +2701,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f4333ee4-53bd-4621-beaf-932bc7c55443
     m_ActionName: Player/Dash[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4a0b9af6-4684-495c-b6d3-987087673d03
+    m_ActionName: Player/Equip[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2836,8 +2874,9 @@ MonoBehaviour:
   rayDistance: 5
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 4294967295
   cameraContainder: {fileID: 473612932625885825}
+  equipmentManager: {fileID: 0}
 --- !u!114 &8729440221464103571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2951,6 +2990,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e54bf51394056e4c83153bc22da086d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &302568547166338009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962199819078159310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758e3342d3efa284bb2d706f695ed75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbSpeed: 10
+  wallCheckDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 264
+--- !u!114 &1105225414022918612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962199819078159310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3888c98604a27c448e7fc8d13d1b6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentSlots:
+  - slotName: Wings
+    attachPoint: {fileID: 4391283757363354637}
 --- !u!1 &8002475675295336084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,7 +3144,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
