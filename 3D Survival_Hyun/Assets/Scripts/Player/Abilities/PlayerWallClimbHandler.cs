@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어가 벽을 타고 오를 수 있도록 처리하는 컴포넌트
+/// Raycast로 벽을 감지하고, 일정 조건 하에 클라이밍 및 점프 가능
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerWallClimbHandler : MonoBehaviour
 {
@@ -19,6 +23,9 @@ public class PlayerWallClimbHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    /// <summary>
+    /// 매 프레임마다 벽 감지 및 클라이밍 처리
+    /// </summary>
     private void Update()
     {
         CheckWall();
@@ -29,6 +36,9 @@ public class PlayerWallClimbHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 벽을 앞에 두고 있는지 감지하는 로직 (Ratcast 기반)
+    /// </summary>
     private void CheckWall()
     {
         Vector3 direction = transform.forward;
@@ -48,6 +58,10 @@ public class PlayerWallClimbHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 벽 타기 시작시  호출, 중력 제거 및 상태전환
+    /// </summary>
+    /// <param name="normal">감지된 벽의 법선</param>
     private void StartClimb(Vector3 normal)
     {
         isClimbing = true;
@@ -56,6 +70,9 @@ public class PlayerWallClimbHandler : MonoBehaviour
         wallNormal = normal;
     }
 
+    /// <summary>
+    /// 벽을 타고 올라가는 처리 및 점프 입력 체크
+    /// </summary>
     private void HandleClimb()
     {
         float vertical = Input.GetAxis("Vertical");
@@ -70,6 +87,9 @@ public class PlayerWallClimbHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 벽 타기 종료 시 호출, 중력 복원 및 상태 리셋
+    /// </summary>
     private void StopClimb()
     {
         if (isClimbing)
