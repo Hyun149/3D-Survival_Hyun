@@ -60,7 +60,7 @@ Unity 기반 3D 생존 액션 게임
 ---
 
 🛠 트러블 슈팅 모음
-# 📅 2025년 5월 16일 트러블슈팅 로그그
+# 📅 2025년 5월 16일 트러블슈팅 로그
 
 ## 🎮 Unity 3D 생존 프로젝트 - 플레이어 시스템 리팩토링
 
@@ -121,7 +121,7 @@ Unity 기반 3D 생존 액션 게임
 > ⛳ 다음 목표: 필수 기능 구현하기
 ---
 ---
-# 🛠 2025-05-17 트러블 슈팅 로그그
+# 🛠 2025-05-17 트러블 슈팅 로그
 
 ## 1. 낙하 데미지 적용 안됨  
 - **문제**: 추락해도 데미지 없음  
@@ -250,7 +250,7 @@ Unity 기반 3D 생존 액션 게임
 - [ ] 버프/디버프 HUD 시각화 및 타이머 표시
 ---
 ---
-## 📅 2025-05-18 트러블슈팅 로그
+## 📅 2025-05-19 트러블슈팅 로그
 
 ## 🚩 이슈 개요
 **PlayerController.cs 리팩토링 도중 NullReferenceException 발생**
@@ -307,6 +307,7 @@ SRP(Single Responsibility Principle)를 기반으로 구조 개선을 시도하�
 ---
 ---
 변경 요약
+## 📅 2025-05-20 트러블슈팅 로그
 
 ### 🔁 1. 점프 및 대시 처리 리팩토링
 - **기존 문제점**: `FixedUpdate` 내에서 점프와 대시 처리 로직이 길고 복잡하여 유지보수가 어려움.
@@ -352,3 +353,80 @@ SRP(Single Responsibility Principle)를 기반으로 구조 개선을 시도하�
 - 레이저 트랩 구현하기
 ---
 ---
+## 📅 2025-05-21 트러블슈팅 로그
+
+## 📍 개요
+이번 작업에서는 **장비 시스템, 골드 소비 로직, 벽 타기 기능**을 추가하는 과정에서 발생한 문제들을 분석하고 해결했습니다.
+
+---
+
+## ❗ 문제 상황
+
+### [1] 장비가 플레이어에 붙긴 하지만, 위치/회전이 어색하고 바닥 오브젝트가 그대로 남아있음
+- **원인:** 프리팹의 로컬 방향이 본 위치 기준과 맞지 않음. `Destroy(gameObject)` 호출도 적절하지 않음
+- **영향:** 장비가 손에 비정상적으로 장착되며, 월드에 복제된 원본이 계속 남아 화면을 어지럽힘
+
+### [2] E 키 입력 처리 로직이 `Input.GetKeyDown()`으로 되어 있었음
+- **원인:** 프로젝트 전반이 `InputSystem` 기반인데, 해당 부분만 `Old Input` 사용
+- **영향:** 입력이 작동하지 않거나 예외 발생 가능성 존재
+
+### [3] 장비 장착 시 골드 차감 로직이 없었음
+- **원인:** 장비 시스템은 존재하지만 경제 시스템과 연결되지 않음
+- **영향:** 플레이어가 리소스 없이 무한 장비 장착 가능 (게임 밸런스 붕괴 위험)
+
+---
+
+## 🔍 시도한 해결
+
+### ✅ 장비 위치 및 방향 정렬
+- 장비 프리팹에 `Offset` 오브젝트 추가 → 부착 기준 맞춤
+- `localPosition = Vector3.zero`, `localRotation = Quaternion.identity` 적용
+- 바닥 오브젝트는 남겨두되, 추후 필요시 제거 가능하게 설계
+
+### ✅ 입력 시스템 통합
+- `PlayerInput.actions["Equip"]`를 사용한 장비 장착 처리
+- `Keyboard.current.eKey.wasPressedThisFrame` → `InputAction.performed`로 대체
+
+### ✅ 골드 시스템 연동
+- `GoldSystem.Instance.SpendGold(goldCost)` 사용
+- 장착 실패 시 메시지 출력 (`골드 부족`)
+- `AddGold()`는 `HeightTracker`에서 최고 고도 갱신 시 자동 지급
+
+---
+
+## 🧩 추가 구현 요소
+
+| 기능 | 설명 |
+|------|------|
+| 장비 프롬프트 | Raycast로 장비 인식 시 UIManager 통해 `"E 키로 장착"` 안내 |
+| 벽 타기 | 벽 감지 후 중력 해제 + 입력에 따라 벽 위로 이동 |
+| UI 연동 | 골드 텍스트 자동 갱신 (`OnGoldChanged` 이벤트 기반) |
+
+---
+
+## ✅ 최종 결과
+
+- 플레이어는 E 키로 장비를 장착할 수 있으며, 골드가 부족하면 장착이 불가능함
+- 골드는 게임 내 행동(높이 상승 등)에 따라 획득되고, 실시간 UI로 반영됨
+- 장비 위치는 본에 정확히 부착되며, 추후 해제/교체를 위한 기반 구조가 갖춰짐
+- 벽 타기는 작동하며, 물리 기반 점프로 벽을 튕겨나올 수 있음
+
+---
+
+## 🗂️ 관련 파일
+
+- `Scripts/Items/EquipmentItem.cs`
+- `Scripts/Items/EquipmentPickup.cs`
+- `Scripts/Player/Systems/EquipmentHandler.cs`
+- `Scripts/Player/Systems/EquipmentInteractor.cs`
+- `Scripts/UI/UIManager.cs`
+- `Scripts/Player/Systems/PlayerWallClimbHandler.cs`
+- `Scripts/Gold/GoldSystem.cs`, `GoldUI.cs`, `HeightTracker.cs`
+
+---
+
+## 📌 다음 개선 과제
+
+- 장비 능력치 반영 (ex. 스피드 +10)
+- 레이져 트랩
+- 플랫폼 발사기
