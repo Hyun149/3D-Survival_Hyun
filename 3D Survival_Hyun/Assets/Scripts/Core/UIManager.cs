@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text objectNameText;
     [SerializeField] private TMP_Text DescriptionText;
 
+    [Header("¿Â∫Ò ¿Â¬¯ «¡∑“«¡∆Æ")]
+    [SerializeField] private GameObject equipPromptUI;
+    [SerializeField] private TMP_Text equipPromptText;
+
     /// <summary>
     /// ΩÃ±€≈Ê ∆–≈œ √ ±‚»≠
     /// </summary>
@@ -48,5 +52,16 @@ public class UIManager : MonoBehaviour
     public void HideInspectInfo()
     {
         inspectPanel.SetActive(false);
+    }
+
+    public void ShowEquipPrompt(string itemName)
+    {
+        equipPromptText.text = $"[E] ¿Â¬¯ <b>{itemName}</b>";
+        equipPromptUI.SetActive(true);
+    }
+
+    public void HideEquipPrompt()
+    {
+        equipPromptUI.SetActive(false);
     }
 }

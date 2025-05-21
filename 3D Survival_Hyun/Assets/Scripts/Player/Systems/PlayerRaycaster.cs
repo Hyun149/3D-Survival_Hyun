@@ -19,6 +19,7 @@ public class PlayerRaycaster : MonoBehaviour
     {
         Vector3 origin = cameraContainder.position;
         Vector3 direction = cameraContainder.forward;
+        Debug.DrawRay(origin, direction * rayDistance, Color.red);
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, rayDistance, interactableLayer))
         {
