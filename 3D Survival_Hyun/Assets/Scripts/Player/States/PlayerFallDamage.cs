@@ -9,19 +9,21 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerFallDamage : MonoBehaviour
 {
-    [SerializeField] private float speedThreshold = -12f;
-    [SerializeField] private float damageMultiplier = 2f;
+    [SerializeField] private float speedThreshold;
+    [SerializeField] private float damageMultiplier;
 
     private float previousYVelocity = 0f;
     private Rigidbody rb;
     private PlayerHealth playerHealth;
     private GroundChecker groundChecker;
+    private EquipmentHandler equipmentHandler;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerHealth = GetComponent<PlayerHealth>();
         groundChecker = GetComponent<GroundChecker>();
+        equipmentHandler = GetComponent<EquipmentHandler>();
     }
 
     private void Update()
@@ -31,6 +33,7 @@ public class PlayerFallDamage : MonoBehaviour
 
     /// <summary>
     /// 현재 지면에 닿았는지 확인하고, 이전 프레임에서의 낙하 속도를 기준으로 낙하 데미지를 적용함
+    /// 감쇠 장비가 있을 경우 데미지를 감소시킴
     /// </summary>
     public void CheckFallDamage()
     {
@@ -38,8 +41,14 @@ public class PlayerFallDamage : MonoBehaviour
         {
             if (previousYVelocity < speedThreshold)
             {
-                float damage = Mathf.Abs(previousYVelocity) * damageMultiplier;
-                playerHealth?.TakeDamage(damage);
+                float rawDamage = Mathf.Abs(previousYVelocity) * damageMultiplier;
+
+                float reductionRatio = Mathf.Clamp01(equipmentHandler?.TotalFallDamageReductionBonus ?? 0f);
+                float finalDamage = rawDamage * (1f - reductionRatio);
+
+                Debug.Log($"[낙하] 감쇠율: {reductionRatio}, 원본: {rawDamage}, 최종: {finalDamage}");
+
+                playerHealth?.TakeDamage(finalDamage);
             }
 
             previousYVelocity = 0f;

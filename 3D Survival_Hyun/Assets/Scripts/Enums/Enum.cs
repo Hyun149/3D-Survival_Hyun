@@ -25,5 +25,7 @@ public enum ItemEffectType
 {
     None,
     JumpBoost,
-    Heal
+    Heal,
+    SpeedBoost,
+    FallDamemgeReduction
 }

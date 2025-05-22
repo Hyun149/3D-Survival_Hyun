@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 장착 가능한 아이템의 기본 클래스 (추상적인 장비 기능 제공)
-/// 다른 장비 아이템 클래스는 이 클래스를 상속받아 OnEquip를 오버라이드함
+/// 장착 가능한 아이템의 기본 클래스 
+/// 능력치 보정 기능을 포함하며, 상속을 통해 고유 효과 구현 가능
 /// </summary>
 public class EquipmentItem : MonoBehaviour
 {
     public string itemName = "Unnamed Equipment";
+
+    [Header("능력치 보정치")]
+    public float speedBonus;
+    public float jumpPowerBonus;
+    public float fallDamageReductionBonus;
 
     /// <summary>
     /// 아이템이 장착 될 때 호출되는 가상 메서드

@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float basemoveSpeed;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private PlayerJumpHandler jumpHandler;
     [SerializeField] private PlayerDash playerDash;
@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private GroundChecker groundChecker;
     private PlayerAnimator playerAnimator;
+    private EquipmentHandler equipmentHandler;
+
     private bool isDashing = false;
 
     /// <summary>
@@ -31,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         if (groundChecker == null) groundChecker = GetComponent<GroundChecker>();
         if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
         if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
+        equipmentHandler = GetComponent<EquipmentHandler>();
     }
 
     /// <summary>
@@ -71,7 +74,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDashing) return;
 
-        Vector3 direction = GetMoveDirection() * moveSpeed;
+        float speedBonus = equipmentHandler?.TotalSpeedBonus ?? 0f;
+        float finalSpeed = basemoveSpeed + speedBonus;
+
+        Vector3 direction = GetMoveDirection() * finalSpeed;
         direction.y = rb.velocity.y;
         rb.velocity = direction;
 

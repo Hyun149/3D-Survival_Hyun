@@ -4,11 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// 플레이어의 기본 점프, 더블 점프, 점프 버프를 통합 관리하는 컴포넌트
+/// 장비 보정과 일시적 버프를 포함하여 점프력을 계산함
 /// </summary>
 public class PlayerJumpHandler : MonoBehaviour
 {
     [Header("JumpSettings")]
-    [SerializeField] private float jumpPower = 10f;
+    [SerializeField] private float baseJumpPower = 10f;
 
     [Header("Component References")]
     [SerializeField] private PlayerDoubleJump doubleJump;
@@ -16,8 +17,22 @@ public class PlayerJumpHandler : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerAnimator animator;
 
+    private EquipmentHandler equipmentHandler;
+    private float jumpPowerBonusFromBuff = 0f;
+
+    private void Awake()
+    {
+        if (doubleJump == null) doubleJump = GetComponent<PlayerDoubleJump>();
+        if (groundChecker == null) groundChecker = GetComponent<GroundChecker>();
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        if (animator == null) animator = GetComponent<PlayerAnimator>();
+
+        equipmentHandler = GetComponent<EquipmentHandler>();
+    }
+
     /// <summary>
-    /// 점프 입력이 들어왔을 때 지면이면 기본 점프, 공중이면 더블 점프를 시도
+    /// 점프 입력이 들어왔을 때 지면이면 기본 점프, 공중이면 더블 점프를 시도합니다.
+    /// 장비 및 버프에 의한 보정도 포함됩니다.
     /// </summary>
     /// <param name="jumpPressed">점프 키 입력 여부</param>
     public void TryJump(bool jumpPressed)
@@ -26,8 +41,13 @@ public class PlayerJumpHandler : MonoBehaviour
 
         if (groundChecker.IsGrounded())
         {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            float equipmentBonus = equipmentHandler?.TotalJumpPowerBonus ?? 0f;
+            float totalJumpPower = baseJumpPower + jumpPowerBonusFromBuff + equipmentBonus;
+
+            rb.AddForce(Vector3.up * totalJumpPower, ForceMode.Impulse);
             animator?.PlayJump();
+
+            Debug.Log($"[점프] 점프력: {totalJumpPower} (기본 {baseJumpPower} + 장비 {equipmentBonus} + 버프 {jumpPowerBonusFromBuff})");
         }
         else
         {
@@ -64,8 +84,8 @@ public class PlayerJumpHandler : MonoBehaviour
     /// <returns>코루틴</returns>
     private IEnumerator JumpBoostRoutine(float amount, float duration)
     {
-        jumpPower += amount;
+        jumpPowerBonusFromBuff += amount;
         yield return new WaitForSeconds(duration);
-        jumpPower -= amount;
+        jumpPowerBonusFromBuff -= amount;
     }
  }
