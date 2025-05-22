@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2560bf4e79c9364491e2949945414cd, type: 3}
-  m_Name: Shield_Equip
+  m_Name: Knife
   m_EditorClassIdentifier: 
-  objectName: "\uB098\uBB34\uBC29\uD328[\uB0A0\uAC1C]"
-  description: "\uAC00\uBCBC\uC6B4 \uBC29\uD328\uB2E4. [\uAC00\uACA9]: 50G"
+  objectName: "\uCE7C"
+  description: "\uBB34\uB518 \uCE7C\uC774\uB2E4. [\uAC00\uACA9]: 1G"
