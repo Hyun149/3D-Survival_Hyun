@@ -2113,13 +2113,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6029211368827820910}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.54, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1838717086156636650}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
 --- !u!1 &6161828016204200199
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,7 +3021,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentSlots:
   - slotName: Wings
-    attachPoint: {fileID: 4391283757363354637}
+    attachPoint: {fileID: 1636202720492707300}
 --- !u!1 &8002475675295336084
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,8 @@ public class ItemData : ScriptableObject
     public ItemType itemType;
 
     [Header("소비 아이템 전용 옵션")]
+    public ItemEffectType effectType;
     public float healAmount;     // 체력 회복량
-    public float jumpBoost;      // (선택) 점프력 증가
-    public float duration;       // (선택) 버프 지속 시간
+    public float jumpBoostPower;      // 점프력 증가
+    public float jumpBoostDuration;       // 버프 지속 시간
 }

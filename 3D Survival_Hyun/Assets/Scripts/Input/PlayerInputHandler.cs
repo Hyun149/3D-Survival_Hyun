@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 플레이어의 이동, 점프, 시점 입력을 처리하고 해당 상태를 저장하는 클래스
-/// PlayerController 등 외부에서 접근하여 입력 상태를 활용함
+/// 플레이어의 입력(이동, 점프, 대시, 시점 회전)을 처리하고
+/// 해당 상태를 저장하여 외부에서 접근 가능하도록 제공하는 클래스
 /// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -19,16 +19,16 @@ public class PlayerInputHandler : MonoBehaviour
     public bool DashPressed { get; private set; }
 
     /// <summary>
-    /// 이동 입력을 처리하여 MovementInput에 저장
+    /// 이동 입력 처리: WASD, 스틱 입력 등
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">입력 컨텍스트</param>
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         MovementInput = context.ReadValue<Vector2>();
     }
 
     /// <summary>
-    /// 점프 키가 눌렸을 때 JumpPressed를 True로 설정
+    /// 점프 키 입력 처리: 눌린 순간에 JumpPressed를 true로 설정
     /// </summary>
     /// <param name="context"></param>
     public void OnJumpInput(InputAction.CallbackContext context)
@@ -40,7 +40,8 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 프레임마다 점프 입력 상태를 초기화
+    /// 프레임마다 점프 입력 상태를 초기화하여 중복 처리 방지
+    /// (예: 점프, 대시는 누른 순간만 감지)
     /// </summary>
     public void ClearInput()
     {
@@ -49,7 +50,7 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 마우스 또는 스틱 시점 입력 처리
+    /// 시점 회전 입력 처림: 마우스 또는 조이스틱의 Look 입력
     /// </summary>
     /// <param name="context"></param>
     public void OnLookInput(InputAction.CallbackContext context)
@@ -57,6 +58,10 @@ public class PlayerInputHandler : MonoBehaviour
         LookInput = context.ReadValue<Vector2>();
     }
 
+    /// <summary>
+    /// 대시 키 입력 처리: 눌린 순간에 DashPressed를 true로 설정
+    /// </summary>
+    /// <param name="context"></param>
     public void OnDashInput(InputAction.CallbackContext context)
     {
         if (context.started)

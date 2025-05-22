@@ -17,3 +17,13 @@ public enum PoolType
     JumpPumkin,
     HealFish
 }
+
+/// <summary>
+/// 아이템 효과 타입 정의
+/// </summary>
+public enum ItemEffectType
+{
+    None,
+    JumpBoost,
+    Heal
+}

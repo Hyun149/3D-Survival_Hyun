@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 맵 상의 장비 오브젝트가 플레이어에 의해 습득되어 장착되는 동작을 처리
+/// 맵 상에 존재하는 장비 아이템을 플레이어가 습득하여 장착하는 동작을 처리하는 클래스
+/// 골드를 지불하여 장비를 특정 슬롯에 장착함
 /// </summary>
 public class EquipmentPickup : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class EquipmentPickup : MonoBehaviour
     [SerializeField] private GameObject itemToEquip;
     [SerializeField] private string targetSlotName;
     [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private int goldCost = 100;
+    [SerializeField] private int goldCost;
 
     private InputAction equipAction;
 
+    /// <summary>
+    /// 입력 시스템 활성화 시 장비 장착 키를 구독
+    /// </summary>
     private void OnEnable()
     {
         if (playerInput != null)
@@ -27,6 +31,9 @@ public class EquipmentPickup : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 비활성화 시 입력 액션 연결 해제
+    /// </summary>
     private void OnDisable()
     {
         if (equipAction != null)
@@ -36,6 +43,11 @@ public class EquipmentPickup : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 장비 장착 입력이 발생했을 때 실행됨
+    /// 골드가 충분하면 장비를 장착하고, 그렇지 않으면 실패 로그 출력
+    /// </summary>
+    /// <param name="context"></param>
     private void OnEquipPerformed(InputAction.CallbackContext context)
     {
         if (equipmentHandler == null || itemToEquip == null)

@@ -34,25 +34,31 @@ public class ItemUseHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 소비형 아이템 사용 효과 적용 (예: 점프력 증가)
+    /// 소비형 아이템 사용 효과 적용 
+    /// enum 기반으로 효과 처리
     /// </summary>
     /// <param name="item"></param>
     private void ApplyConsumableEffect(ItemData item)
     {
-        if (item.itemName == "호박")
+        
+        switch (item.effectType)
         {
-            playerJumpHandler.ApplyJumpBoost(15f, 5f);
-            Debug.Log("호박을 먹었다! 일정시간동안 점프력이 상승합니다!");
-        }
+            case ItemEffectType.JumpBoost:
+                playerJumpHandler.ApplyJumpBoost(item.jumpBoostPower, item.jumpBoostDuration);
+                Debug.Log($"{item.itemName} 사용: 점프력이 {item.jumpBoostPower}만큼 {item.jumpBoostDuration}초간 증가!");
+                break;
+            case ItemEffectType.Heal:
+                var health = GetComponent<PlayerHealth>();
+                if (health != null)
+                {
+                    health.Heal(item.healAmount);
+                    Debug.Log($"{item.itemName} 사용: 체력 {item.healAmount} 회복!");
+                }
+                break;
 
-        if (item.itemName == "연어")
-        {
-            var health = GetComponent<PlayerHealth>();
-            if (health != null)
-            {
-                health.Heal(item.healAmount);
-                Debug.Log("연어를 먹었다! 체력 회복!");
-            }
+            default:
+                Debug.LogWarning($"[ItemUseHandler] 정의되지 않은 소비 아이템 효과: {item.effectType}");
+                break;
         }
     }
 }

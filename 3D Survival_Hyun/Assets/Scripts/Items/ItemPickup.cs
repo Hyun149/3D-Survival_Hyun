@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 풀에서 생성된 아이템 오브젝트 (플레이어와 충돌 시 아이템 효과 적용 및 풀 반환)
+/// 풀에서 생성된 아이템 오브젝트
+/// 플레이어와 충돌 시 아이템 효과를 적용하고 일정 시간 후 풀로 반환됨
 /// </summary>
 public class ItemPickup : MonoBehaviour, IPoolable
 {
@@ -12,7 +13,7 @@ public class ItemPickup : MonoBehaviour, IPoolable
     [SerializeField] private ItemData itemData;
 
     /// <summary>
-    /// 풀 매니저로부터 주입되는 풀 객체 저장
+    /// 풀 매니저로부터 주입되는 원본 풀 정보를 저장 (재활용 시 필요)
     /// </summary>
     public void SetPool(ObjectPool pool)
     {
@@ -20,7 +21,7 @@ public class ItemPickup : MonoBehaviour, IPoolable
     }
 
     /// <summary>
-    /// 플레이어와 충돌 시 아이템 효과 적용 및 5초 후 재활성화
+    /// 플레이어가 이 오브젝트와 충돌하면 아이템 효과를 적용하고, 일정 시간 후 풀로 반환 요청을 수행
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
