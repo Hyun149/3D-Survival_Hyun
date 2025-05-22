@@ -10,8 +10,8 @@ using UnityEngine;
 public class PlayerWallClimbHandler : MonoBehaviour
 {
     [Header("벽 타기 설정")]
-    [SerializeField] private float climbSpeed = 2f;
-    [SerializeField] private float wallCheckDistance = 0.5f;
+    [SerializeField] private float climbSpeed;
+    [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask wallLayer;
 
     private Rigidbody rb;

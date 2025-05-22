@@ -20,6 +20,10 @@ public class PlayerDoubleJump : MonoBehaviour
         staminaSystem = GetComponent<StaminaSystem>();
     }
 
+    /// <summary>
+    /// 더블 점프를 시도하며, 조건이 충족되면 실행
+    /// </summary>
+    /// <returns>더블 점프 성공 여부</returns>
     public bool TryDoubleJump()
     {
         if (HasDoubleJumped) return false;
@@ -31,6 +35,9 @@ public class PlayerDoubleJump : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 더블 점프 사용 여부를 초기화하여 다음 점프를 준비 
+    /// </summary>
     public void ResetDoubleJump()
     {
         HasDoubleJumped = false;

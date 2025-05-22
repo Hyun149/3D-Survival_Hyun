@@ -9,6 +9,10 @@ public class EquipmentManager : MonoBehaviour
 {
     private EquipmentItem currentEquipped;
 
+    /// <summary>
+    /// 새 장비 아이템을 장착하고, 기존 장비는 제거합니다.
+    /// </summary>
+    /// <param name="newItem"></param>
     public void Equip(EquipmentItem newItem)
     {
         if (currentEquipped != null)

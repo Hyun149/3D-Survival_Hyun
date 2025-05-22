@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 플레이어의 이동 및 대시 처리를 담당하는 컴포넌트
+/// 플레이어의 이동, 점프, 대시 처리를 담당하는 메인 모션 제어 컴포넌트
+/// 입력 처리, 이동 방향 계산, 애니메이션 연동까지 포함
 /// </summary>
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAnimator playerAnimator;
     private bool isDashing = false;
 
+    /// <summary>
+    /// 컴포넌트 참조 초기화 (GetComponent 또는 인스펙터 설정)
+    /// </summary>
     private void Awake()
     {
         if (jumpHandler == null) jumpHandler = GetComponent<PlayerJumpHandler>();
@@ -30,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 고정 주기마다 이동 및 점프 처리
+    /// 고정 프레임 주기마다 이동, 점프, 대시 처리 실행
     /// </summary>
     void FixedUpdate()
     {
@@ -40,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
         inputHandler.ClearInput();
     }
 
+    /// <summary>
+    /// 대시 입력이 들어왔을 경우 대시 실행
+    /// </summary>
     private void HandleDash()
     {
         if (!inputHandler.DashPressed) return;
@@ -76,12 +83,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 대시 시작 시 호출되며 일정 시간동안 IsDashing을 true로 유지
+    /// </summary>
     public void NotifyDashStart()
     {
         isDashing = true;
         StartCoroutine(EndDashAfter(0.2f));
     }
 
+    /// <summary>
+    /// 지정된 시간 이후 isDashing을 false로 설정
+    /// </summary>
+    /// <param name="time">대시 지속 시간</param>
+    /// <returns></returns>
     private IEnumerator EndDashAfter(float time)
     {
         yield return new WaitForSeconds(time);
