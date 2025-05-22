@@ -1,5 +1,5 @@
 ## 게임 플레이 영상
-https://www.youtube.com/watch?v=Vi8njVpfxWo
+[https://www.youtube.com/watch?v=Vi8njVpfxWo](https://www.youtube.com/watch?v=2rZyxrSrX4w)
 # 🐻 Project JumpBear
 
 **"점프하고, 먹고, 진화하라!"**  
@@ -15,11 +15,13 @@ Unity 기반 3D 생존 액션 게임
 
 - 🍖 **소비형 아이템 시스템**  
   호박(점프력 강화), 연어(체력 회복) 등 효과를 가진 아이템을 즉시 사용 가능  
-  → Coroutine 기반 지속 효과, ScriptableObject 데이터 연동 구조
+  → Coroutine 기반 지속 효과, ScriptableObject 데이터 연동 구조  
+  → **ItemEffectType enum 기반 효과 처리로 유지보수성 강화**
 
 - 🧰 **장비 시스템**  
   Raycast로 세계에 놓인 장비를 인식하고 장착 가능  
-  골드를 소비하여 능력 강화 (예: 이동 속도 증가), E 키 기반 상호작용
+  골드를 소비하여 능력 강화 (예: 이동 속도 증가), E 키 기반 상호작용  
+  → **장착 시 능력치 자동 보정: 이동 속도, 점프력, 낙하 데미지 반영**
 
 - 🪧 **상호작용 조사 시스템**  
   Raycast 기반 조사 UI로 세계 오브젝트 탐색  
@@ -44,6 +46,13 @@ Unity 기반 3D 생존 액션 게임
 - 📦 **풀링 기반 아이템 리스폰 시스템**  
   오브젝트 풀 구조 및 리스폰 매니저를 통한 메모리 효율적 재사용
 
+- 🧠 **입력/효과/데이터 캐싱 최적화**  
+  `InputSystem`, `ItemEffect`, `ActionMap` 등을 캐싱 방식으로 구조 최적화  
+  → 반복 탐색 제거로 성능 향상
+
+- 📄 **문서화 기반 개발 문화**  
+  모든 주요 스크립트에 XML 주석을 도입하여 구조적 이해와 팀 협업을 용이하게 함
+
 ---
 
 > **기능이 증가할수록 SRP(Single Responsibility Principle)를 바탕으로**  
@@ -51,38 +60,44 @@ Unity 기반 3D 생존 액션 게임
 
 ---
 
-## 🚧 향후 계획
+## 🚧 향후 계획 (업데이트됨)
 
-- [ ] 장비 능력치 적용 (예: 이동 속도 +10, 점프력 +3 등)
+- [x] 장비 능력치 적용 (예: 이동 속도 +10, 점프력 +3 등)
+- [x] 아이템 효과 분기 구조 개선 (enum 기반 `ItemEffectType` 적용)
+- [x] 주요 시스템 XML 주석 정비 완료
+- [x] 레이저 트랩 구현 및 시각화 처리 (LineRenderer 기반)
 - [ ] 버프/디버프 HUD 시각화 및 지속 시간 표시
-- [ ] 레이저 트랩 및 이동 발판 등 함정 기믹 추가
+- [ ] 인벤토리 시스템 재설계 (UI 슬롯 연결 구조 개선 후 재구축 예정)
 - [ ] 난이도 상승 구조 설계 (예: 고도에 따른 보상/위험 증가)
 - [ ] 미니게임 및 도전과제 시스템 추가
 - [ ] Checkpoint 및 SavePoint 기능 도입
 
 ---
 
-## 👨‍💻 개발자 노트
+## 👨‍💻 개발자 노트 (업데이트됨)
 
-- ✅ **구조적 설계 우선**  
-  - SRP(Single Responsibility Principle)를 기반으로 각 시스템을 기능 단위로 분리  
-  - PlayerController → Input 라우팅 허브, 나머지는 Handler로 위임
+- ✅ **구조적 설계 우선**
+  - SRP(Single Responsibility Principle)를 바탕으로 `Input`, `Movement`, `Animation`, `Effect`, `Interaction` 시스템 분리
+  - `EquipmentHandler`에서 장비 능력치 합산 → 각 시스템에 주입 적용
 
-- ✅ **문서화 및 주석 중심 개발**  
-  - 모든 주요 스크립트에 XML 주석 및 흐름 중심 주석 삽입  
-  - 협업과 디버깅 시 빠른 이해가 가능하도록 유지
+- ✅ **문서화 및 주석 중심 개발**
+  - 전 스크립트에 XML 주석 추가 (`<summary>`, `<param>`, `<returns>`)
+  - 구조 흐름과 역할, 사용법을 명확히 주석 처리하여 협업 가독성 향상
 
-- ✅ **에디터 친화적 구조 설계**  
-  - ScriptableObject를 적극 활용하여 Mock 데이터와 게임 밸런싱을 분리  
-  - Enum 기반으로 오타 방지 및 확장성 확보
+- ✅ **에디터 친화적 구조 설계**
+  - `ScriptableObject`로 아이템, 인스펙트 데이터, 장비 스탯 등 분리
+  - `Enum` 기반 구조로 오타 방지 및 타입 안전성 확보
 
-- ✅ **트러블슈팅 기반 개선 문화**  
-  - 매일 발생한 문제 상황을 기록하고 TIL/Troubleshooting 로그로 정리  
-  - 단순한 해결을 넘어 구조적 원인 분석 및 리팩토링 유도
+- ✅ **트러블슈팅 기반 개선 문화**
+  - 기존 `"호박"`, `"연어"` 등의 문자열 분기 → `ItemEffectType` 기반 구조로 리팩토링
+  - `InputSystem`의 `FindAction` 반복 호출 → 캐싱 구조로 변경
+  - `LineRenderer` 누락 및 `dealDamage()` 경고 제거 등 디버깅 처리 완료
+  - 롤백 가능한 커밋 전략으로 UI 구조 충돌 시 빠른 복원 가능
 
-- ✅ **UX 품질 향상 시도**  
-  - 월드 UI(Canvas World Space) + Billboard 시스템으로 직관적 UI 구현  
-  - 상호작용 시 시각적 피드백(프롬프트) 강화
+- ✅ **UX 품질 향상 시도**
+  - 레이저 트랩 시각화 및 플랫폼 동작 개선
+  - 상호작용 프롬프트, 아이템 이펙트 등 시각적 피드백 강화
+  - `World Space Canvas` + `Billboard` 구조로 직관적인 UI 제공
 
 ---
 ---
@@ -458,3 +473,79 @@ SRP(Single Responsibility Principle)를 기반으로 구조 개선을 시도하�
 - 장비 능력치 반영 (ex. 스피드 +10)
 - 레이져 트랩
 - 플랫폼 발사기
+---
+---
+# 🧯 2025년 5월 22일 트러블슈팅 & 리팩토링 기록
+
+## 📛 문제 요약 (Problems)
+
+### 1. 문자열 분기에 의존한 아이템 효과 처리
+- `"호박"`, `"연어"` 등의 **하드코딩 처리**로 인해 새로운 아이템 추가 시마다 조건 분기 코드가 늘어났음
+- 유지보수성과 확장성 모두 저하됨
+
+### 2. 주요 시스템 주석 미흡
+- 이동, 점프, 대시, 스태미나, 장비, 골드 등 **핵심 시스템의 문서화 부족**으로 팀 협업과 유지보수에 리스크
+
+### 3. 장비 능력치가 실제 시스템에 반영되지 않음
+- `EquipmentItem`의 능력치 필드가 있으나, **플레이어 이동/점프/낙하 등에 적용되지 않음**
+
+### 4. LaserTrap 구조의 시각적 부재 및 경고
+- 레이저 기능은 있었으나 **LineRenderer가 빠져 시각적 피드백 없음**
+- `dealDamage()` 같은 **사용되지 않는 코드 존재** → 경고 메시지 다수 발생
+
+### 5. Input 시스템 반복 탐색 비용 증가
+- `PlayerInputHandler`가 `InputAction`을 매번 동적 탐색
+- `FindAction()` 남용 → 퍼포먼스 저하 우려
+
+---
+
+## 🔧 해결 과정 (Attempts & Solutions)
+
+### ✅ [A1] 문자열 분기 제거 → Enum 기반 처리
+- `ItemEffectType` enum 도입 (Heal, JumpBoost, SpeedBoost, FallDamageReduction 등)
+- `ItemUseHandler`에서 `switch-case`로 효과 처리 통합
+
+### ✅ [A2] 주요 스크립트에 XML 주석 보완
+- `/// <summary>` 주석 전면 도입
+- 대상: `PlayerMovement`, `PlayerJumpHandler`, `EquipmentHandler`, `ObjectPool` 등 핵심 시스템
+- 사용 목적, 흐름, 주의사항 등을 명확히 명시
+
+### ✅ [A3] 장비 능력치 → 실시간 반영 구조 설계
+- `EquipmentHandler`에 능력치 총합 계산 메서드 추가:
+  - `GetTotalSpeedBonus()`
+  - `GetTotalJumpBonus()`
+  - `GetTotalFallDamageReduction()`
+- 해당 보정값을 `PlayerMovement`, `JumpHandler`, `FallDamage`에 실제 반영
+
+### ✅ [A4] LaserTrap 리팩토링
+- `LineRenderer` 구성 및 머티리얼(`Raser.mat`) 적용
+- 감지 주기 및 데미지 적용 정비
+- 불필요한 `dealDamage()` 제거하여 경고 해소
+
+### ✅ [A5] 입력 시스템 캐싱 구조로 개선
+- `OnEnable` 시 `InputAction` 한 번만 캐싱
+- `OnDisable`에서 안전하게 해제
+- `EquipmentPickup` 또한 `equipAction` 캐싱 처리
+
+---
+
+## 💥 인벤토리 롤백 처리
+
+> ⚠️ **Issue**: 슬롯 생성/연결 로직이 UI 계층 구조와 충돌 발생  
+> 🧭 **Action**: 커밋 백업 후 구조 리셋 → 재설계 예정
+
+---
+
+## 📚 알게 된 점 (Knowledge)
+
+- 문자열 조건은 잠깐 편리하지만, 결국 구조적 확장에 가장 큰 장애물이 됨
+- 시스템 전반의 **명세화(XML 주석)**는 문서가 아닌 ‘실시간 가이드’가 된다
+- 능력치/효과는 "데이터 보유"와 "적용 로직"이 반드시 분리되어야 함
+- 기능이 아닌 ‘구조’를 먼저 잡는 것이 나중을 살린다
+
+---
+
+## 🏁 다음 작업 예정
+
+- 코드 정리 및 주석처리
+- 과제 제출 준비비
