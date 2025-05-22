@@ -48,34 +48,6 @@ public class PlayerController : MonoBehaviour
         look.HandleLook();
     }
 
-
-    /// <summary>
-    /// 마우스 입력을 처리하는 메서드    
-    /// </summary>
-    /// <param name="context"></param>
-    public void OnLookInput(InputAction.CallbackContext context)
-    {
-        input.OnLookInput(context);
-    }
-
-    /// <summary>
-    /// 이동 입력 처리
-    /// </summary>
-    /// <param name="context"></param>
-    public void OnMoveInput(InputAction.CallbackContext context)
-    {
-        input.OnMoveInput(context);
-    }
-
-    /// <summary>
-    /// 점프 입력 처리
-    /// </summary>
-    /// <param name="context"></param>
-    public void OnJumpInput(InputAction.CallbackContext context)
-    {
-        input.OnJumpInput(context);
-    }
-
     /// <summary>
     /// 마우스 커서 잠금 상태를 토글하고, 시점 제어도 동기화
     /// </summary>

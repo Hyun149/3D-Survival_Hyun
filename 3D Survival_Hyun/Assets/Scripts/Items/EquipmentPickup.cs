@@ -18,14 +18,21 @@ public class EquipmentPickup : MonoBehaviour
 
     private InputAction equipAction;
 
+    private void Awake()
+    {
+        if (playerInput != null)
+        {
+            equipAction = playerInput.actions.FindAction("Equip", true);
+        }
+    }
+
     /// <summary>
     /// 입력 시스템 활성화 시 장비 장착 키를 구독
     /// </summary>
     private void OnEnable()
     {
-        if (playerInput != null)
+        if (equipAction != null)
         {
-            equipAction = playerInput.actions["Equip"];
             equipAction.performed += OnEquipPerformed;
             equipAction.Enable();
         }
