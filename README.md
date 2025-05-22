@@ -2,7 +2,7 @@
 [https://www.youtube.com/watch?v=Vi8njVpfxWo](https://www.youtube.com/watch?v=2rZyxrSrX4w)
 # 🐻 Project JumpBear
 
-**"점프하고, 먹고, 진화하라!"**  
+**"점프하고, 먹고, 등반하라!"**  
 Unity 기반 3D 생존 액션 게임
 
 ---
