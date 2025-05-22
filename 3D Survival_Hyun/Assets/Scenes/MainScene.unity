@@ -675,11 +675,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744441191210458504, guid: 637a26567ae08674796cb9ce5c55c4d8, type: 3}
       propertyPath: fallDamageReductionBonus
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8399593860021683675, guid: 637a26567ae08674796cb9ce5c55c4d8, type: 3}
       propertyPath: goldCost
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8399593860021683675, guid: 637a26567ae08674796cb9ce5c55c4d8, type: 3}
       propertyPath: playerInput

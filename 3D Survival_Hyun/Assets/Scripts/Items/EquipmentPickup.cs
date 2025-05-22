@@ -69,5 +69,7 @@ public class EquipmentPickup : MonoBehaviour
         }
 
         equipmentHandler.Equip(itemToEquip, targetSlotName);
+
+        Destroy(transform.root.gameObject);
     }
 }
