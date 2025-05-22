@@ -46,8 +46,6 @@ public class PlayerFallDamage : MonoBehaviour
                 float reductionRatio = Mathf.Clamp01(equipmentHandler?.TotalFallDamageReductionBonus ?? 0f);
                 float finalDamage = rawDamage * (1f - reductionRatio);
 
-                Debug.Log($"[³«ÇÏ] °¨¼èÀ²: {reductionRatio}, ¿øº»: {rawDamage}, ÃÖÁ¾: {finalDamage}");
-
                 playerHealth?.TakeDamage(finalDamage);
             }
 

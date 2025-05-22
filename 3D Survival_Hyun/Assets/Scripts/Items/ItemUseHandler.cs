@@ -45,19 +45,16 @@ public class ItemUseHandler : MonoBehaviour
         {
             case ItemEffectType.JumpBoost:
                 playerJumpHandler.ApplyJumpBoost(item.jumpBoostPower, item.jumpBoostDuration);
-                Debug.Log($"{item.itemName} 사용: 점프력이 {item.jumpBoostPower}만큼 {item.jumpBoostDuration}초간 증가!");
                 break;
             case ItemEffectType.Heal:
                 var health = GetComponent<PlayerHealth>();
                 if (health != null)
                 {
                     health.Heal(item.healAmount);
-                    Debug.Log($"{item.itemName} 사용: 체력 {item.healAmount} 회복!");
                 }
                 break;
 
             default:
-                Debug.LogWarning($"[ItemUseHandler] 정의되지 않은 소비 아이템 효과: {item.effectType}");
                 break;
         }
     }

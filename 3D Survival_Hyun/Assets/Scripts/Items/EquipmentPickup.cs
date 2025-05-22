@@ -65,11 +65,9 @@ public class EquipmentPickup : MonoBehaviour
 
         if (!GoldSystem.Instance.SpendGold(goldCost))
         {
-            Debug.Log("골드 부족: 장비를 장착할 수 없습니다.");
             return;
         }
 
         equipmentHandler.Equip(itemToEquip, targetSlotName);
-        Debug.Log($"{goldCost}G를 소모하고 {itemToEquip.name} 장착 완료");
     }
 }

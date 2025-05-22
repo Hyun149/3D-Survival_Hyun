@@ -45,9 +45,7 @@ public class PlayerJumpHandler : MonoBehaviour
             float totalJumpPower = baseJumpPower + jumpPowerBonusFromBuff + equipmentBonus;
 
             rb.AddForce(Vector3.up * totalJumpPower, ForceMode.Impulse);
-            animator?.PlayJump();
-
-            Debug.Log($"[점프] 점프력: {totalJumpPower} (기본 {baseJumpPower} + 장비 {equipmentBonus} + 버프 {jumpPowerBonusFromBuff})");
+            animator?.PlayJump();       
         }
         else
         {
