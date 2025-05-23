@@ -54,8 +54,8 @@ public class EquipmentPickup : MonoBehaviour
     }
 
     /// <summary>
-    /// 장비 장착 입력이 발생했을 때 실행됨
-    /// 골드가 충분하면 장비를 장착하고, 그렇지 않으면 실패 로그 출력
+    /// 장비 장착 입력이 발생했을 때 호출되는 메서드입니다.
+    /// 골드가 충분할 경우 장비를 장착하고, 오브젝트를 삭제합니다.
     /// </summary>
     /// <param name="context"></param>
     private void OnEquipPerformed(InputAction.CallbackContext context)

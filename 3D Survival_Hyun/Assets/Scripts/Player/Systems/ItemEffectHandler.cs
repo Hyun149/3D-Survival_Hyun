@@ -6,7 +6,7 @@ using UnityEngine;
 /// 아이템 사용 효과를 처리하는 클래스
 /// 아이템 타입에 따라 적절한 행동을 수행함
 /// </summary>
-public class ItemUseHandler : MonoBehaviour
+public class ItemEffectHandler : MonoBehaviour
 {
     [SerializeField] private PlayerJumpHandler playerJumpHandler;
 

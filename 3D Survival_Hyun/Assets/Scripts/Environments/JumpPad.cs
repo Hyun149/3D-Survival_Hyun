@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class JumpPad : MonoBehaviour
 {
-    [SerializeField] private float jumpForce = 20f;
+    [SerializeField] private float jumpForce;
 
     /// <summary>
     /// 플레이어가 충돌했을 때 위 방향으로 힘을 가해 점프시키는 로직

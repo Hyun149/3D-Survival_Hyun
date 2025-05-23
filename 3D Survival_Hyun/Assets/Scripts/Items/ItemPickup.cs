@@ -27,7 +27,7 @@ public class ItemPickup : MonoBehaviour, IPoolable
     {
         if (!other.CompareTag("Player")) return;
 
-        var handler = other.GetComponent<ItemUseHandler>();
+        var handler = other.GetComponent<ItemEffectHandler>();
         if (handler != null && itemData != null)
         {
             handler.UseItem(itemData);
