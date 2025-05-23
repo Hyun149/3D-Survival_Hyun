@@ -21,6 +21,9 @@ public class PlayerInputHandler : MonoBehaviour
     public bool JumpPressed { get; private set; }
     public bool DashPressed { get; private set; }
 
+    /// <summary>
+    /// PlayerInput 및 ActionMap을 초기화합니다.
+    /// </summary>
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -32,8 +35,9 @@ public class PlayerInputHandler : MonoBehaviour
         dashAction = actionMap.FindAction("Dash", true);
     }
 
-    
-
+    /// <summary>
+    /// 입력 이벤트에 리스너를 등록하고 Action을 활성화합니다.
+    /// </summary>
     private void OnEnable()
     {
         moveAction.performed += OnMovePerformed;
@@ -51,6 +55,9 @@ public class PlayerInputHandler : MonoBehaviour
         dashAction.Enable();
     }
 
+    /// <summary>
+    /// 입력 이벤트 등록을 해제하고 Action을 비활성화합니다.
+    /// </summary>
     private void OnDisable()
     {
         moveAction.performed -= OnMovePerformed;
@@ -68,14 +75,14 @@ public class PlayerInputHandler : MonoBehaviour
         dashAction.Disable();
     }
 
-    private void OnMovePerformed(InputAction.CallbackContext ctx) => MovementInput = ctx.ReadValue<Vector2>();
-    private void OnMoveCanceled(InputAction.CallbackContext ctx) => MovementInput = Vector2.zero;
+    private void OnMovePerformed(InputAction.CallbackContext ctx) => MovementInput = ctx.ReadValue<Vector2>(); // 이동 입력 처리
+    private void OnMoveCanceled(InputAction.CallbackContext ctx) => MovementInput = Vector2.zero; // 이동 입력 해제 처리
 
-    private void OnLookPerformed(InputAction.CallbackContext ctx) => LookInput = ctx.ReadValue<Vector2>();
-    private void OnLookCanceled(InputAction.CallbackContext ctx) => LookInput = Vector2.zero;
+    private void OnLookPerformed(InputAction.CallbackContext ctx) => LookInput = ctx.ReadValue<Vector2>(); // 시점 입력 처리 (마우스/오른쪽 스틱)
+    private void OnLookCanceled(InputAction.CallbackContext ctx) => LookInput = Vector2.zero; // 시점 입력 해제 처리
 
-    private void OnJumpStarted(InputAction.CallbackContext ctx) => JumpPressed = true;
-    private void OnDashStarted(InputAction.CallbackContext ctx) => DashPressed = true;
+    private void OnJumpStarted(InputAction.CallbackContext ctx) => JumpPressed = true; // 점프 키 입력 감지
+    private void OnDashStarted(InputAction.CallbackContext ctx) => DashPressed = true; // 대쉬 키 입력 감지
 
     /// <summary>
     /// 외부에서 매 프레임 입력 상태를 초기화할 때 사용

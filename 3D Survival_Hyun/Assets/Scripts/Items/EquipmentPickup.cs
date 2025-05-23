@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 맵 상에 존재하는 장비 아이템을 플레이어가 습득하여 장착하는 동작을 처리하는 클래스
-/// 골드를 지불하여 장비를 특정 슬롯에 장착함
+/// 맵 상에 존재하는 장비 아이템을 플레이어가 습득하여 장착하는 동작을 처리하는 클래스입니다.
+/// 골드를 지불하고 특정 슬롯에 장비를 장착하며, 장착 완료 후 해당 오브젝트는 사라집니다.
 /// </summary>
 public class EquipmentPickup : MonoBehaviour
 {
@@ -18,6 +18,9 @@ public class EquipmentPickup : MonoBehaviour
 
     private InputAction equipAction;
 
+    /// <summary>
+    /// 입력 액션 맵에서 'Equip' 액션을 찾습니다.
+    /// </summary>
     private void Awake()
     {
         if (playerInput != null)
